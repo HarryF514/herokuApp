@@ -82,6 +82,7 @@ function parse(url) {
                                 titleLength: text.length,
                                 urlDomain: getDomain(toQueueUrl),
                                 isQueue: false,
+                                domainUrlCount: -1,
                                 isArticle: false,
                                 qualityPercentage: -1
                             };

@@ -1,6 +1,8 @@
 var express = require('express');
 var app = express();
 require("./queryUrl.js");
+require("./queryUrlToNodeClub.js");
+
 app.set('port', (process.env.PORT || 5000));
 
 app.use(express.static(__dirname + '/public'));

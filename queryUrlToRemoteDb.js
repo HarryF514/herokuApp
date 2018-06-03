@@ -8,6 +8,11 @@ var request = require('request')
 var exec = require('child_process').exec;
 var myuinetcn = 'http://huoreport.com:2052/articleUrl';
 var myuinetcnSaveUrl = 'http://138.197.133.253:2052/saveArticle';
+console.log("environemnt is ", process.env.NODE_ENV);
+if(process.env.NODE_ENV == "DEV") {
+    myuinetcnSaveUrl = 'http://localhost:2052/saveArticle';
+    console.log("hiting url", myuinetcnSaveUrl);
+}
 var requestTimeOut = 7000;
 var he = require('he');
 
@@ -25,10 +30,6 @@ configure({
 })
 
 
-parse(myuinetcn);
-parse(myuinetcn);
-parse(myuinetcn);
-parse(myuinetcn);
 parse(myuinetcn);
 parse(myuinetcn);
 parse(myuinetcn);
@@ -55,12 +56,10 @@ function parse(url) {
             console.log("article length " + article.content.length);
             if (article.content.length > 2000) {
 
-                var content = he.decode(article.content);
-
                 request.post({
                     url: myuinetcnSaveUrl,
                     form: {
-                        content: content
+                        article:  JSON.stringify(article)
                     }
                 }, function (error, response, body) {
                     if (error) {

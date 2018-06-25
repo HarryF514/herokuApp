@@ -6,15 +6,16 @@
  */
 var request = require('request')
 var exec = require('child_process').exec;
-var myuinetcn = 'http://huoreport.com:2052/articleUrl';
+var myuinetcn = 'http://api.puarticle.com:2052/articleUrl';
 var myuinetcnSaveUrl = 'http://138.197.133.253:2052/saveArticle';
 console.log("environemnt is ", process.env.NODE_ENV);
-if(process.env.NODE_ENV == "DEV") {
+if (process.env.NODE_ENV == "DEV") {
     myuinetcnSaveUrl = 'http://localhost:2052/saveArticle';
     console.log("hiting url", myuinetcnSaveUrl);
 }
+
+var h2p = require('html2plaintext')
 var requestTimeOut = 7000;
-var he = require('he');
 
 var {
     extract
@@ -29,11 +30,24 @@ configure({
     }
 })
 
+parse(myuinetcn);
 
-parse(myuinetcn);
-parse(myuinetcn);
-parse(myuinetcn);
-parse(myuinetcn);
+setTimeout(function () {
+    parse(myuinetcn);
+    setTimeout(function () {
+        parse(myuinetcn);
+        setTimeout(function () {
+            parse(myuinetcn);
+            setTimeout(function () {
+                parse(myuinetcn);
+                setTimeout(function () {
+                    parse(myuinetcn);
+                }, 1000);
+            }, 1000);
+        }, 1000);
+    }, 1000);
+}, 1000);
+
 
 function parse(url) {
     request(url, {
@@ -50,22 +64,25 @@ function parse(url) {
             parse(myuinetcn);
             return
         }
+        if (process.env.NODE_ENV == "debug") {
+            console.log('obj.url', obj.url, obj.qualityPercentage);
+        }
 
-        console.log('obj.url', obj.url, obj.qualityPercentage);
         extract(obj.url).then(function (article) {
-            console.log("article length " + article.content.length);
-            if (article.content.length > 2000) {
-
+            var htmlTextContent = h2p(article.content);
+            console.log("article length " + htmlTextContent.length);
+            
+            if (htmlTextContent.length > 200) {
                 request.post({
                     url: myuinetcnSaveUrl,
                     form: {
-                        article:  JSON.stringify(article)
+                        article: JSON.stringify(article)
                     }
                 }, function (error, response, body) {
                     if (error) {
                         return console.log('error', error)
                     } else {
-                        console.log('body', body);
+                        console.log('body', body, "saved", article.title);
                     }
                     parse(myuinetcn);
                 })
@@ -74,10 +91,14 @@ function parse(url) {
                 parse(myuinetcn);
             }
         }).catch(function (err) {
-            console.log("ArticleParser.extract error " + err.toString());
+            if (process.env.NODE_ENV == "debug") {
+                console.log("ArticleParser.extract error " + err.toString());
+            }
             parse(myuinetcn);
         }).finally(function () {
-            console.log("finally", new Date());
+            if (process.env.NODE_ENV == "debug") {
+                console.log("finally", new Date());
+            }
         });
     })
 }

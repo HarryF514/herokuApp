@@ -6,13 +6,14 @@
  */
 var request = require('request');
 var exec = require('child_process').exec;
-var myuinetcn = 'http://huoreport.com:2052/articleUrl';
+var myuinetcn = 'http://api.puarticle.com:2052/articleUrl';
 var TurndownService = require('turndown')
 var turndownService = new TurndownService()
 var topicEndPoint = "http://puarticle.com/api/v1/topics";
-var accessToken = "3ff1ea9f-5d91-45b0-a5a0-263d9d054395";
+var accessToken = "5269e015-2c5c-4261-b310-25f7ab283307";
 var tabName = "share";
 var requestTimeOut = 7000;
+var h2p = require('html2plaintext')
 
 
 var {
@@ -51,10 +52,11 @@ function parse(url) {
 
         console.log('obj.url', obj.url, obj.qualityPercentage);
         extract(obj.url).then(function (article) {
-            console.log("article length " + article.content.length);
-            console.log("article.title", article.title);
-            if (article.content.length > 2000) {
+            var htmlTextContent = h2p(article.content);
+            console.log("article length " + htmlTextContent.length);
 
+            if (htmlTextContent.length > 200) {
+                article.content = article.content + "<a href='" + obj.url + "'>来自：" + obj.url + "</a>";
                 request.post({
                     url: topicEndPoint,
                     form: {
@@ -67,7 +69,7 @@ function parse(url) {
                     if (error) {
                         return console.log('error', error)
                     } else {
-                        console.log('body', body);
+                        console.log('body', body, "saved", article.title);
                     }
                     parse(myuinetcn);
                 })

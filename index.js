@@ -1,8 +1,8 @@
 var express = require('express');
 var app = express();
 //require("./queryUrl.js");
-//require("./queryUrlToNodeClub.js");
-require("./queryUrlToRemoteDb.js");
+require("./queryUrlToNodeClub.js");
+//require("./queryUrlToRemoteDb.js");
 
 app.set('port', (process.env.PORT || 5000));
 

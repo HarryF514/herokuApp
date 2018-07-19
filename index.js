@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-//require("./queryUrl.js");
+require("./queryUrl.js");
 require("./queryUrlToNodeClub.js");
 //require("./queryUrlToRemoteDb.js");
 

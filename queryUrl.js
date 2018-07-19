@@ -10,7 +10,7 @@ var request = require('request'),
 var jsdom = require('jsdom');
 const queryString = require('query-string');
 var exec = require('child_process').exec;
-var myuinetcn = 'http://huoreport.com:2052/';
+var myuinetcn = 'http://api.puarticle.com:2052/';
 var myuinetcnSaveUrl = myuinetcn + 'save';
 var requestTimeOut = 5000;
 
@@ -81,8 +81,8 @@ function parse(url) {
                                 title: text,
                                 titleLength: text.length,
                                 urlDomain: getDomain(toQueueUrl),
-                                isQueue: false,
                                 domainUrlCount: -1,
+                                isQueue: false,
                                 isArticle: false,
                                 qualityPercentage: -1
                             };
@@ -91,6 +91,7 @@ function parse(url) {
                     }
                 }
             });
+
             request.post({
                 url: myuinetcnSaveUrl,
                 form: {

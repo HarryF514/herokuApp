@@ -7,7 +7,7 @@
 var request = require('request')
 var exec = require('child_process').exec;
 var myuinetcn = 'http://api.puarticle.com:2052/articleUrl';
-var myuinetcnSaveUrl = 'http://138.197.133.253:2052/saveArticle';
+var myuinetcnSaveUrl = 'http://api.puarticle.com:2052/saveArticle';
 console.log("environemnt is ", process.env.NODE_ENV);
 if (process.env.NODE_ENV == "DEV") {
     myuinetcnSaveUrl = 'http://localhost:2052/saveArticle';

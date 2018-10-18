@@ -86,16 +86,3 @@ function parse(url) {
     })
 }
 
-
-setTimeout(function () {
-    console.log("try to restart");
-    exec("forever restart queryUrlToNodeClub.js", function (error, stdout, stderr) {
-        if (error) {
-            console.log(error);
-            return;
-        }
-        if (stdout) {
-            console.log(stdout);
-        }
-    });
-}, 600 * 1000);

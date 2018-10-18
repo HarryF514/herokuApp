@@ -110,15 +110,3 @@ function parse(url) {
 }
 
 parse(myuinetcn);
-
-setTimeout(function() {
-    exec("forever restart queryUrl.js", function(error, stdout, stderr) {
-        if (error) {
-            console.log(error);
-            return;
-        }
-        if (stdout) {
-            console.log(stdout);
-        }
-    });
-}, 60000);

@@ -55,7 +55,7 @@ function parse(url) {
             var htmlTextContent = h2p(article.content);
             console.log("article length " + htmlTextContent.length);
 
-            if (htmlTextContent.length > 200) {
+            if (htmlTextContent.length > 1000) {
                 article.content = article.content + "<a href='" + obj.url + "'>来自：" + obj.url + "</a>";
                 request.post({
                     url: topicEndPoint,

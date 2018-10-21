@@ -74,6 +74,7 @@ function parse(url) {
                     if ($(this).prop('href')) {
                         var toQueueUrl = $(this).prop('href').split('#')[0];
                         //alert("包含中文");
+                        toQueueUrl = toQueueUrl.replace(" ", "");
                         if (toQueueUrl.indexOf("http://") == 0) {
                             //var objectId = new ObjectID().toString();
                             var obj = {
